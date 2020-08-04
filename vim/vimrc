@@ -1,0 +1,44 @@
+" VIMRC 
+" Btabone 2020-08-04
+color darkblue
+set ruler
+set number numberwidth=3 relativenumber
+"
+" ******************************************
+" Setup handy mappings
+"
+let mapleader = ","
+" Move line up one in normal mode
+nnoremap - ddkP
+" Select a word in normal mode
+nnoremap <leader><space> viw
+" Delete a line in insert mode
+inoremap <c-d> <esc>ddi
+" Uppercase a word in insert mode
+inoremap <c-u> <esc>VUi
+" Uppercase a word in normal mode
+nnoremap <c-u> VU
+" Edit vimrc
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+" Set file type unix
+nnoremap <leader>u :set ff=unix<cr>
+" Set file type dos
+nnoremap <leader>d :set ff=dos<cr>
+" Source vimrc
+nnoremap <leader>sv :source $MYVIMRC<cr>
+" Double quote word
+nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
+" Single quote word
+nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
+" In Visual mode, surround selected text with double quotes
+vnoremap <leader>" <esc>`<i"<esc>`>la"<esc>
+" In visual mode, surround selected text with single quotes 
+vnoremap <leader>' <esc>`<i'<esc>`>la'<esc>
+" Quick escape out of insert mode
+inoremap jk <esc>
+" Force ourselves to use the jk sequence
+inoremap <esc> <nop>
+"
+" Abbreviations
+iabbrev ccopy Copyright 2020 Brian Tabone, all rights reserved
+iabbrev @@ brian.tabone@gmail.com

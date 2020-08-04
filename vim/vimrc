@@ -1,5 +1,6 @@
 " VIMRC 
 " Btabone 2020-08-04
+"
 color darkblue
 set ruler
 set number numberwidth=3 relativenumber

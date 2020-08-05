@@ -1,6 +1,5 @@
 " VIMRC 
 " Btabone 2020-08-04
-"
 color darkblue
 set ruler
 set number numberwidth=3 relativenumber
@@ -31,6 +30,19 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
 " Single quote word
 nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
+" Put register numbered registers
+nnoremap <leader>0 "0p
+nnoremap <leader>1 "1p
+nnoremap <leader>2 "2p
+nnoremap <leader>3 "3p
+nnoremap <leader>4 "4p
+nnoremap <leader>5 "5p
+nnoremap <leader>6 "6p
+nnoremap <leader>7 "7p
+nnoremap <leader>8 "8p
+nnoremap <leader>9 "9p
+" Display registers
+nnoremap <leader>r :reg<cr>
 " In Visual mode, surround selected text with double quotes
 vnoremap <leader>" <esc>`<i"<esc>`>la"<esc>
 " In visual mode, surround selected text with single quotes 

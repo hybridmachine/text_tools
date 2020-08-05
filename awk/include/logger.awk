@@ -25,15 +25,12 @@ function log_init(basepath, level)
 	
 	logfilename=basepath "-" filedatetime ".log";
 
-	if (LOGLEVELS[level] == 0)
+	if (!(level in LOGLEVELS))
 	{
 		logMessage = "Invalid log level " level ". Legal values are";
 		for (levelStr in LOGLEVELS)
 		{
-		    if (LOGLEVELS[levelStr] > 0)
-		    {
-		    	logMessage = logMessage " " levelStr;
-		    }
+			logMessage = logMessage " " levelStr;
 		}
 		log_fatal(logMessage);
 	}

@@ -2,6 +2,8 @@
 " Btabone 2020-08-04
 color darkblue
 set ruler
+" Show in proces commands
+set showcmd
 set number numberwidth=3 relativenumber
 "
 " ******************************************
@@ -55,3 +57,9 @@ inoremap <esc> <nop>
 " Abbreviations
 iabbrev ccopy Copyright 2020 Brian Tabone, all rights reserved
 iabbrev @@ brian.tabone@gmail.com
+
+" Useful autocommands
+augroup xmlformatter
+	au!
+	au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
+augroup END

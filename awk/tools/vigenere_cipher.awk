@@ -38,9 +38,40 @@ function chr(c)
 }
 
 ##################################################
+# Perform the decryption rotation using the key value
+function decrypt()
+{
+	keyIdx = 0;
+	for (idx = 1; idx <= length(cipherText); idx++)
+	{
+			keyIdx++;
+			if (keyIdx > length(cipherKey))
+			{
+				keyIdx = 1;
+			}
+
+			# This contains the rot value extracted from 
+			# the key
+			cipherRot = letterPosVec[substr(cipherKey, keyIdx, 1)];
+			plaintextOrd = letterPosVec[substr(cipherText, idx, 1)];
+			plaintextOrd = plaintextOrd - cipherRot;
+
+# Cirucular buffer
+			if (plaintextOrd < 1)
+			{
+					plaintextOrd += 26;
+			}
+			printf posLetterVec[plaintextOrd];
+	}
+	printf("\n");
+}
+
+
+##################################################
 # Perform the rotation using the key value
 function encrypt()
 {
+    cipherText=""
     keyIdx = 0;	
 	for (idx = 1; idx <= length(plainText); idx++)
 	{
@@ -52,9 +83,18 @@ function encrypt()
 			
 			# This contains the rot value extracted from 
 			# the key
-			cipherRot = letterVec[substr(cipherKey, keyIdx, 1)];
-			print substr(plainText, idx, 1)
+			cipherRot = letterPosVec[substr(cipherKey, keyIdx, 1)];
+			plainOrd = letterPosVec[substr(plainText, idx, 1)];
+			cipherOrd = plainOrd + cipherRot;
+# Cirucular buffer
+			if (cipherOrd > 26)
+			{
+					cipherOrd -= 26;
+			}
+
+			cipherText = cipherText posLetterVec[cipherOrd];
 	}
+	printf cipherText "\n";
 }
 
 BEGIN {
@@ -64,16 +104,18 @@ BEGIN {
 			exit -1
 		}
 
-		plainText = ARGV[2]
-		cipherKey = ARGV[1]
+		plainText = tolower(ARGV[2])
+		cipherKey = tolower(ARGV[1])
 		
 		_ord_init()
 		start = ord("a",c)
 
 		for (idx = start; idx < (start + 26); idx++)
 		{
-			letterVec[chr(idx)] = idx-start+1
+			letterPosVec[chr(idx)] = idx-start+1
+			posLetterVec[idx-start+1] = chr(idx)
 		}
 
 		encrypt()
+		decrypt()
 }

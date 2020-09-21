@@ -1,13 +1,17 @@
 #!/usr/bin/awk -f
+@include "include/logger.awk";
+
 BEGIN {
 	FS=",";
 	logDate = "";
-	brianWins = 0;
-	popsWins = 0;
-	brianOverallWins = 0;
-	popsOverallWins = 0;
+	brianGamesWon = 0;
+	popsGamesWon = 0;
+	draws = 0;
+	handsWonByBrian = 0;
+	handsWonByPops = 0;
 	idx = 0;
 	dayCount = 0;
+	log_init("./dominos_analysis", "DEBUG");
 }
 	
 /\// {
@@ -20,10 +24,10 @@ BEGIN {
 	dayCount++;
 }
 
-/[PB]/ {
+/[PBD]/ {
 	for (i=1;i<=NF;i++)
 	{
-		gsub(/[^PB]/,"",$i);
+		gsub(/[^PBD]/,"",$i);
 		wins[$i]++;
 	}
 }
@@ -32,28 +36,39 @@ function processDay()
 {
 	if (logDate != "")
 	{
-		winLog[logDate] = wins["P"] "," wins["B"] "," wins["P"] + wins["B"];
+		if (!("D" in wins))
+		{
+			wins["D"] = 0;
+		}
+
+		winLog[logDate] = wins["P"] "," wins["B"] "," wins["D"] "," wins["P"] + wins["B"] + wins["D"];
 
 		# Variable to track order of winLog used when printing it out in order
 		winLogOrder[idx] = logDate; 
 		idx++;
+		handsWonByBrian += wins["B"];
+		handsWonByPops += wins["P"];
+		if (wins["B"] > wins["P"])
+		{
+			brianGamesWon++;			
+		} else if (wins["P"] > wins["B"])
+		{
+			popsGamesWon++;
+		}
+		else if (wins["P"] == wins["B"])
+		{
+			log_info("A draw found on " logDate);
+			draws++;
+		}
+		delete wins;
 	}
-	brianOverallWins += wins["B"];
-	popsOverallWins += wins["P"];
-	if (wins["B"] > wins["P"])
-	{
-		brianWins++;			
-	} else if (wins["P"] > wins["B"])
-	{
-		popsWins++;
-	}
-	delete wins;
+
 }
 
 END {
 	processDay();
 
-	print "Date,Pops Overall,Pops Games,Brian Overall,Brian Games,Total";
+	print "Date,Pops ,Brian, Draw, Total";
 	for (wIdx = 0; wIdx < length(winLogOrder); wIdx++)
 	{
 		print  winLogOrder[wIdx] "," winLog[winLogOrder[wIdx]];

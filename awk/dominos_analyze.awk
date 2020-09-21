@@ -7,6 +7,7 @@ BEGIN {
 	brianOverallWins = 0;
 	popsOverallWins = 0;
 	idx = 0;
+	dayCount = 0;
 }
 	
 /\// {
@@ -16,6 +17,7 @@ BEGIN {
 	# Start the next day
 	gsub(/[^0-9/]/,"",$1);
 	logDate=$1;	
+	dayCount++;
 }
 
 /[PB]/ {
@@ -57,5 +59,7 @@ END {
 		print  winLogOrder[wIdx] "," winLog[winLogOrder[wIdx]];
 	}
 
-	print "Overall," popsOverallWins "," popsWins "," brianOverallWins "," brianWins "," popsWins + brianWins;
+	print "";
+	print "Pops Overall, Pops Game Wins, Brian's Overall, Brian's Game Wins, Total Games, Total Days"
+	print popsOverallWins "," popsWins "," brianOverallWins "," brianWins "," popsWins + brianWins, dayCount;
 }

@@ -1,6 +1,6 @@
 " VIMRC 
 " Btabone 2020-08-04
-color darkblue
+color onedark 
 set ruler
 " Show in proces commands
 set showcmd
@@ -62,4 +62,13 @@ iabbrev @@ brian.tabone@gmail.com
 augroup xmlformatter
 	au!
 	au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
+augroup END
+
+augroup makefiles
+    autocmd!
+    " Adapted from https://superuser.com/questions/632657/how-to-setup-vim-to-edit-both-makefile-and-normal-code-files
+    " in makefiles, don't expand tabs to spaces, since actual tab characters are
+    " needed, and have indentation at 8 chars to be sure that all indents are tabs
+    " (despite the mappings later):
+    autocmd FileType make set noexpandtab shiftwidth=8 softtabstop=0
 augroup END
